@@ -14,11 +14,14 @@
     <button onclick="openVisor()">Abrir</button>
     <button onclick="closeVisor()">Close</button>
     <script>
+      var open = new CustomEvent("sc:visor:open", { detail: "simular" });
+      var close = new CustomEvent("sc:visor:close");
+
       function openVisor() {
-        document.dispatchEvent(new CustomEvent("sc:visor:open"));
+        document.dispatchEvent(open);
       }
       function closeVisor() {
-        document.dispatchEvent(new CustomEvent("sc:visor:close"));
+        document.dispatchEvent(close);
       }
     </script>
   </body>
