@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from "@angular/core";
+import { Component, ElementRef, HostListener, Input } from "@angular/core";
 
 @Component({
   selector: "app-root",
@@ -9,29 +9,43 @@ export class AppComponent {
   title = "CodeSandbox";
   openText = "close text";
   app = "test";
+  @Input() public visor;
 
   constructor(private elem: ElementRef) {
-    this.elem.nativeElement.visor = this.eventHooks();
+    // debugger;
+    let apps = [{ name: "simular" }];
+
+    this.elem.nativeElement.visor = this.eventHooks(apps);
   }
 
-  eventHooks() {
+  eventHooks(apps) {
     let eventPrefix = "sc:visor:";
-    let open = new CustomEvent(`${eventPrefix}open`);
-    let close = new CustomEvent(`${eventPrefix}close`);
-    return {
-      open: () => document.dispatchEvent(open),
-      close: () => document.dispatchEvent(close)
-    };
+    let appsEvents = {};
+
+    for (let i; i < apps.lenght; i++) {
+      let app = apps[i];
+
+      let open = new CustomEvent(`${eventPrefix}open`, { detail: app.name });
+      let close = new CustomEvent(`${eventPrefix}close`, { detail: app.name });
+
+      appsEvents[app.name] = {
+        open: () => document.dispatchEvent(open),
+        close: () => document.dispatchEvent(close)
+      };
+    }
+
+    return appsEvents;
   }
 
   @HostListener(`document:sc:visor:open`, ["$event"])
-  open(event) {
-    console.log(event.detail);
-    this.openText = "open text";
+  open({ detail }) {
+    console.log(detail);
+    this.openText = "Open text";
   }
 
   @HostListener("document:sc:visor:close", ["$event"])
-  close() {
+  close({ detail }) {
+    console.log(detail);
     this.openText = "Close text again";
   }
 }

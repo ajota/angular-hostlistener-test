@@ -4,29 +4,22 @@
     <meta charset="utf-8" />
     <title>Angular</title>
     <base href="/" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <script defer>
-      var visor = document.getElementsByTagName("app-root")[0];
-
-      console.log(visor);
-      // var open = new CustomEvent("sc:visor:open", { detail: "simular" });
-      // var close = new CustomEvent("sc:visor:close");
-
-      // function openVisor() {
-      //   document.dispatchEvent(open);
-      // }
-
-      // function closeVisor() {
-      //   document.dispatchEvent(close);
-      // }
-    </script>
   </head>
 
   <body>
     <app-root></app-root>
-    <button onclick="openVisor()">Abrir</button>
-    <button onclick="closeVisor()">Close</button>
+    <!-- <button onclick="openVisor()">Abrir</button>
+    <button onclick="closeVisor()">Close</button> -->
+    <script>
+      setTimeout(() => {
+        // debugger;
+        var visor = document.getElementsByTagName("app-root")[0];
+        visorEvents.open();
+        var visorEvents = visor.visor;
+        console.log(visorEvents);
+      }, 5000);
+    </script>
   </body>
 </html>
