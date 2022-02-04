@@ -1,4 +1,4 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, ElementRef, HostListener } from "@angular/core";
 
 @Component({
   selector: "app-root",
@@ -9,6 +9,20 @@ export class AppComponent {
   title = "CodeSandbox";
   openText = "close text";
   app = "test";
+
+  constructor(private elem: ElementRef) {
+    this.elem.nativeElement.visor = this.eventHooks();
+  }
+
+  eventHooks() {
+    let eventPrefix = "sc:visor:";
+    let open = new CustomEvent(`${eventPrefix}open`);
+    let close = new CustomEvent(`${eventPrefix}close`);
+    return {
+      open: () => document.dispatchEvent(open),
+      close: () => document.dispatchEvent(close)
+    };
+  }
 
   @HostListener(`document:sc:visor:open`, ["$event"])
   open(event) {
